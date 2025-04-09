@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if [ $# -eq 0 ]; then
+    echo "Usage: phone serchfor [...searchfor]"
+    echo "(You didn't tell me what you want to search for.)"
+    exit 1
+fi
+
+pattern=$(printf "%s|" "$@")
+pattern=${pattern%|}
+
+while read -r data; do
+    if echo "$data" | egrep -q "$pattern"; then
+    echo "$data" | awk -f display.awk
+    fi
+done < mydata.txt
